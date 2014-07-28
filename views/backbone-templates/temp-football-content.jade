@@ -1,0 +1,25 @@
+div(id="appFootballNow", class="app-football-now float")
+	table(class="standings-table-style")
+		tr(class="table-header-row")
+			th
+				|Team
+			th
+				|Wins
+			th
+				|Losses
+			th
+				|Progress
+			th
+				|Points
+		each team, i in teams
+			tr(class="table-data-row")
+				td
+					|#{team.stand_team_name}
+				td
+					|#{team.stand_overall_w}
+				td
+					|#{team.stand_overall_l}
+				td
+					|#{team.stand_status}
+				td
+					|#{team.stand_points}

@@ -1,0 +1,50 @@
+div(id="appWeatherNow", class="app-weather-now float")
+	p
+		|Location: #{location}
+	h3
+		|#{temp}&deg;C
+	p
+		|Observation time: #{observation_time}
+div(id="appWeatherDays", class="app-weather-days float")
+	div(class="sub-header")
+		p
+			|Cloud cover
+	div
+		span
+			|#{cloudcover}
+			span.smallSpan
+				%
+	div(class="sub-header")
+		p
+			|Humidity
+	div
+		span
+			|#{humidity}
+			span.smallSpan
+				%
+	div(class="sub-header")
+		p
+			|Pressure
+	div
+		span
+			|#{pressure} 
+			span.smallSpan
+				|millibars
+	div(class="sub-header")
+		p	
+			|Wind Speed
+	div
+		span
+			|#{windspeedKmph}
+			span.smallSpan	
+				|Mph
+	div(class="sub-header")
+		p	
+			|Wind Direction
+	div
+		span
+			|#{winddir16Point}
+div(id="appWeatherMap", class="app-weather-map float")
+	p
+div(id="appWeatherSummary", class="app-weather-summary float")
+	p

@@ -1,0 +1,88 @@
+$color_first	= rgba(204,95,57,1.0)
+$color_second	= rgba(131,130,113,1.0)
+$color_third	= rgba(207,184,106,1.0)
+$color_forth	= rgba(153,133,117,1.0)
+$color_fifth	= rgba(77,77,77,1.0)
+$white			= rgba(255,255,255,1.0)
+
+$light_color = tint($color_third,10%) 
+$light_secondary_color = tint($color_second,60%) 
+$dark_third_colour = darken($color_third, 30%)
+
+/* Mixins */
+
+fontReg()
+	font-family 'sansationregular'
+	
+fontBold()
+	font-family 'sansationbold'
+	
+fontlight()
+	font-family 'sansation_lightlight' 
+
+fontDefault()
+	font-family Arial, Helvetica sans-serif 
+
+transit-boost()
+	will-change: transform, all;
+	-webkit-transform: translate3d(0, 0, 0);
+	-webkit-backface-visibility: hidden; 
+	-webkit-perspective: 1000;
+	transition: 	 	all 0.3s ease;
+	-moz-transition: 	all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-ms-transition: 	all 0.3s ease;
+	-o-transition: 		all 0.3s ease;
+
+opacity-ease()
+	transition  opacity .25s ease-in-out 
+	-moz-transition  opacity .25s ease-in-out 
+	-webkit-transition  opacity .25s ease-in-out 
+ 
+opacity-instant()
+	transition  opacity 0s linear 
+	-moz-transition  opacity 0s linear 
+	-webkit-transition  opacity 0s linear 
+ 
+width-ease()
+	-webkit-transition  max-width 0.5s ease 
+	-moz-transition  max-width 0.5s ease 
+	-ms-transition  max-width 0.5s ease 
+	-o-transition  max-width 0.5s ease 
+	transition  max-width 0.5s ease 
+ 
+margin-ease()
+	-webkit-transition  margin 0.5s ease 
+	-moz-transition  margin 0.5s ease 
+	-ms-transition  margin 0.5s ease 
+	-o-transition  margin 0.5s ease 
+	transition  margin 0.5s ease 
+
+box-sized()
+	box-sizing border-box 
+	-moz-box-sizing border-box
+
+border-radius($px)  
+	-webkit-border-radius  $px 
+	border-radius  $px 
+
+border-bottom-white($px) 
+	border-bottom solid $px $white
+	
+widthHeightFull()
+	overflow hidden
+	width 100%
+	height auto
+	
+widthHeightAuto()
+	overflow hidden
+	width auto
+	height auto
+	
+globalPadding()
+	padding 20px
+
+clearfix()  
+	float left  
+	clear both 
+ 
