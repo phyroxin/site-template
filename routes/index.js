@@ -11,9 +11,17 @@ exports.index = function(req, res){
 };
 
 exports.about = function(req, res){
-	console.log('Home page');
+	console.log('About page');
 	res.render('about', {
 		 title:'Site Template | About'
 		,headerText:'Site Template - About'
+	});
+};
+
+exports.contact = function(req, res){
+	console.log('Contact page');
+	res.render('contact', {
+		 title:'Site Template | Contact'
+		,headerText:'Site Template - Contact'
 	});
 };

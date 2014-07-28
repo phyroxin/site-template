@@ -89,6 +89,7 @@ app.post('/api/upload',			model.uploadFile)
 app.get('/', 			routes.index);
 app.get('/home', 		routes.index);			    
 app.get('/about', 		routes.about);			    
+app.get('/contact', 	routes.contact);			    
 app.get('/api/getData', model.getData);
 
 /*======================================================================
