@@ -37,17 +37,6 @@ var userColl = db.get('userdata');
 	}
 );
 
-/*========================================================
- * Route Models
- *========================================================
- */
-exports.index = function(req, res){
-	console.log('Home page');
-	res.render('index', {
-		 title:'Site Template | Home'
-	});
-};
-
 /*======================================================================
  * Data models
  *======================================================================
@@ -63,8 +52,7 @@ exports.getData = function(req, res){
 			}
 			else{
 				console.log('Data sent');
-				res.send({'test':'data'});
-				//res.send(doc);
+				res.send(doc);
 			}
 		}
 	);

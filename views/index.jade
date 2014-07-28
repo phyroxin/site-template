@@ -1,11 +1,7 @@
 extend layout
 block content
-	div(id="appWrap", class="app-wrap-style")
-		div(id="appHeader", class="app-header-style")
-			div(id="appHeaderText", class="app-header-text-style float")
-				h1
-					|Site Template
-			div(id="appHeaderMenu", class="app-header-logo-style")
-		div(id="appContentWrap", class="app-content-wrap-style")
-			div(id="appHeader", class="app-header")
-			div(id="appContent", class="app-content")
+	div(id="appContentWrap", class="app-content-wrap-style")
+		div(id="appHeader", class="app-header")
+		div(id="appContent", class="app-content")
+	include app-general
+	include app-dependencies

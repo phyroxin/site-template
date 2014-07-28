@@ -7,8 +7,5 @@ $(document).ready(function(){
 	
 	workspace = new Workspace();
 	Backbone.history.start();
-	
-	APP.prototype.GET_DATA(function(){
-		console.log('data loaded');
-	});
+
 });

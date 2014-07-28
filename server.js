@@ -20,6 +20,7 @@ var  express  	    = require('express')
 	,stylus	  	    = require('stylus')
 	,nib	  	    = require('nib')
 	,path	  	    = require('path')
+	,routes	  	    = require('./routes')
 	,model	  	    = require('./models')
 	,weatherApi	    = require('./api')
 	,socketModule   = require('./socket-module')
@@ -85,8 +86,9 @@ app.post('/api/upload',			model.uploadFile)
  * Application routes
  *========================================================
  */
-app.get('/', 			model.index);
-app.get('/home', 		model.index);			    
+app.get('/', 			routes.index);
+app.get('/home', 		routes.index);			    
+app.get('/about', 		routes.about);			    
 app.get('/api/getData', model.getData);
 
 /*======================================================================

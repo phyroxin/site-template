@@ -45,15 +45,9 @@ html(lang="en")
 		meta(property="og:description", content="")
 
 	body
+		div(id="appWrap", class="app-wrap-style")
+		div(id="appHeaderWrap", class="app-header-style")
+			div(id="appHeaderText", class="app-header-text-style float")
+				h1
+					|#{headerText}	
 		block content
-		
-		script(src='./js/libs/jquery-v1.10.2.js')
-		script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
-		script(src='./js/libs/underscore-min.js')
-		script(src='./js/libs/backbone-min.js')
-		script(src='./js/libs/backbone.dispose.js')
-		script(src='./socket.io/socket.io.js')
-		script(src='./js/libs/jade-templates.js')
-		script(src='./js/globals.js')
-		script(src='./js/app.js')
-		script(src='./js/init.js')

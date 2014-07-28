@@ -51,6 +51,11 @@ exports.init = function(server){
 	io.sockets.on('connection', function(socket){
 	
 		console.log('SessionID ' + socket.handshake.sessionID);
+		
+		// send pong to client to calculate latency;
+		//socket.on('ping', function(){
+		//	socket.emit('pong');
+		//});
 
 		// emit socket start and send session cookie for logging
 		socket.emit('socket start', {id:socket.handshake.sessionID});

@@ -286,10 +286,10 @@ var socket;
 	 * display latency
 	 *======================================================================
 	 */ 
-	var latencyTest = setInterval(function(){
-		startTime = Date.now();
-		socket.emit('ping');
-	}, 2000);
+	//var latencyTest = setInterval(function(){
+	//	startTime = Date.now();
+	//	socket.emit('ping');
+	//}, 2000);
 	
 	socket.on('pong', function(){
 		latency = Date.now() - startTime;

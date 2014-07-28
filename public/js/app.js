@@ -16,8 +16,6 @@ var DefaultModel = Backbone.Model.extend({
 	}
 });
 
-var defaultModel = new DefaultModel();
-
 /*===============================================================================================
  * Collections
  *======================================================================
@@ -49,8 +47,6 @@ var DefaultCollection = Backbone.Collection.extend({
 		return Backbone.Collection.prototype.reset.call(this, models, options);
 	}
 });
-
-var defaultCollection = new DefaultCollection();
 
 /*======================================================================
  * Workspace
