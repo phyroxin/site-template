@@ -1,4 +1,4 @@
-// create gulp watcher
+// TODO: create gulp watcher
 
 var  gulp       = require('gulp')
     ,jshint     = require('gulp-jshint')
@@ -15,7 +15,7 @@ gulp.task('compile-app', function(){
 		 "_globals.js"
 		,"app.js"
 		,"init.js"
-		,"*.js"
+		//,"*.js"
 	    ]))	
 	    .pipe(jshint({laxcomma:true}))
 	    .pipe(jshint.reporter('default'))
@@ -31,6 +31,7 @@ gulp.task('compile-libs', function(){
 		,"json2-min.js"
 		,"backbone-min.js"
 		,"backbone.dispose.js"
+		//,"*.js"
 	    ]))
 	    .pipe(uglify())
 	    .pipe(concat('libs.js'))
@@ -44,8 +45,8 @@ gulp.task('compile-temp', function(){
 	    .pipe(gulp.dest('public/build/template'))
 });
 
-gulp.task('browsy', function(){
-	return b.add('./public/js/pixi/pixi-main.js')
+gulp.task('pixiify', function(){
+	return b.add('./public/js/libs/pixi/pixi-main.js')
 		.bundle()
 		.pipe(source('pixi.js'))
 		.pipe(gulp.dest('./public/build/'));

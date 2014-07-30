@@ -1,9 +1,10 @@
 // Require pixi module
-var pixi = require('pixi');
-var requestAnimationFrame = require('pixi/utils/raf');
+var pixi = require('../../pixi');
+//var requestAnimationFrame = require('pixi/utils/raf');
 
 // You can use either WebGLRenderer or CanvasRenderer
 var renderer = pixi.WebGLRenderer(800, 600);
+//var renderer = pixi.CanvasRenderer(800, 600);
 document.body.appendChild(renderer.view);
 
 var stage = new pixi.Stage();
