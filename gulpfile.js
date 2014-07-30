@@ -2,6 +2,7 @@
 
 var  gulp       = require('gulp')
     ,jshint     = require('gulp-jshint')
+    ,streamify  = require('gulp-streamify')
     ,uglify     = require('gulp-uglify')
     ,concat     = require('gulp-concat')
     ,order      = require('gulp-order')
@@ -15,7 +16,6 @@ gulp.task('compile-app', function(){
 		 "_globals.js"
 		,"app.js"
 		,"init.js"
-		//,"*.js"
 	    ]))	
 	    .pipe(jshint({laxcomma:true}))
 	    .pipe(jshint.reporter('default'))
@@ -31,7 +31,6 @@ gulp.task('compile-libs', function(){
 		,"json2-min.js"
 		,"backbone-min.js"
 		,"backbone.dispose.js"
-		//,"*.js"
 	    ]))
 	    .pipe(uglify())
 	    .pipe(concat('libs.js'))
@@ -49,5 +48,6 @@ gulp.task('pixiify', function(){
 	return b.add('./public/js/libs/pixi/pixi-main.js')
 		.bundle()
 		.pipe(source('pixi.js'))
+		.pipe(streamify(uglify()))
 		.pipe(gulp.dest('./public/build/'));
 });
