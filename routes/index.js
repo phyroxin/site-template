@@ -25,3 +25,11 @@ exports.contact = function(req, res){
 		,headerText:'Site Template - Contact'
 	});
 };
+
+exports.pixi = function(req, res){
+	console.log('Pixi Fun');
+	res.render('pixi', {
+		 title:'Site Template | Pixi Fun'
+		,headerText:'Site Template - Pixi Fun'
+	});
+};

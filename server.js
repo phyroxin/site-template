@@ -90,6 +90,7 @@ app.get('/', 			routes.index);
 app.get('/home', 		routes.index);			    
 app.get('/about', 		routes.about);			    
 app.get('/contact', 	routes.contact);			    
+app.get('/pixi', 		routes.pixi);			    
 app.get('/api/getData', model.getData);
 
 /*======================================================================

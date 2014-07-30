@@ -8,9 +8,8 @@ var DefaultModel = Backbone.Model.extend({
 	
 	initialize: function() {
 		this.on('change', function(){ /* commentView.render() */ });
-	}
-	
-	,defaults: {
+	},
+	defaults: {
 		 "text": "Unknown Text"
 		,"timestamp": "Unknown timestamp"
 	}
