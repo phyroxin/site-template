@@ -1,7 +1,8 @@
 (function($, pixi, win){
-
+	
 	//create stage and add colour
-	var  stage 					= new pixi.Stage(0xcccccc)
+	var  interactive 			= true
+		,stage 					= new pixi.Stage(0xcccccc, interactive)
 		,canvas					= '#pixi-wrap > canvas'
 		,imgDIR 				= '../../../images/'
 		,count 					= 0
@@ -21,9 +22,10 @@
 	var renderer = pixi.autoDetectRenderer(config.windowWidth, config.windowHeight, null, true);
 	document.getElementById("pixi-wrap").appendChild(renderer.view);
 	
-	var bunnyTexture = pixi.Texture.fromImage(imgDIR+"bunny.png");
-	var bunnyArray = [];
-	var bunnyCount = 2;
+	var  bunnyTexture = pixi.Texture.fromImage(imgDIR+"bunny.png")
+		,bunnyArray   = []
+		,bunnyCount   = 2
+		,bunnyMax	  = 100;
 	
 	/*======================================================================
 	 * Animation core
@@ -67,17 +69,33 @@
 
 	function init(duration){
 		
+		if(n >= bunnyMax)
+			return;
+		
 		for(i=0; i<bunnyCount; i=i+1, n=n+1){
 			
 			bunnyArray[n] = new pixi.Sprite(bunnyTexture);
-			bunnyArray[n].position.x = randomScale(10, config['windowWidth']);
-			bunnyArray[n].position.y = -20;
-			bunnyArray[n].width		 = 20; //randomScale(10, 50);
-			bunnyArray[n].height 	 = 25; //randomScale(15, 55);
-			bunnyArray[n].pivot.x 	 = (bunnyArray[i].width /2);
-			bunnyArray[n].pivot.y 	 = (bunnyArray[i].height /2);
-			bunnyArray[n].scale.x 	 = 1;//randomScale(1, 2);
-			bunnyArray[n].scale.y 	 = 1;//randomScale(1, 5);
+			bunnyArray[n].position.x    = randomScale(10, config['windowWidth']);
+			bunnyArray[n].position.y    = -20;
+			bunnyArray[n].width		    = 20; //randomScale(10, 50);
+			bunnyArray[n].height 	    = 25; //randomScale(15, 55);
+			bunnyArray[n].pivot.x 	    = (bunnyArray[i].width /2);
+			bunnyArray[n].pivot.y 	    = (bunnyArray[i].height /2);
+			bunnyArray[n].scale.x 	    = 1;//randomScale(1, 2);
+			bunnyArray[n].scale.y 	    = 1;//randomScale(1, 5);
+			bunnyArray[n].buttonMode    = true;
+			bunnyArray[n].alpha		    = 1;
+			bunnyArray[n].defaultCursor = 'pointer';
+			
+			bunnyArray[n].setInteractive(true);
+			
+			bunnyArray[n].click = function(){
+				console.log('clicked bunny');
+			};
+			
+			bunnyArray[n].mouseover = function(){
+				bunnyJump(this, 1000);
+			};
 			
 			stage.addChild(bunnyArray[n]);
 			
@@ -115,6 +133,9 @@
 	function bunnyJump(element, duration){
 		var to = 100; //config['windowHeight'] /randomScale(2, 4);
 		
+		if(typeof element === 'undefined')
+			return;
+			
 		animate({
 			 delay: 1
 			,duration: duration || 1000
@@ -183,8 +204,8 @@
 	
 	$(document)
 	.on('click', canvas, function(){
-		console.log('click');
-		bunnyJump(bunnyArray[1], 50);
+		console.log('canvas clicked');
+		bunnyJump(bunnyArray[randomScale(1, n)], 2000);
 	});
 	
 	(function(){
@@ -192,8 +213,8 @@
 			var randInt = randomScale(1, 100);
 			if(randInt %10 === 0)
 				init();
-			if(randInt %2 === 0)
-				bunnyJump(bunnyArray[randomScale(1, 10)], 1000);
+			if(randInt %5 === 0)
+				bunnyJump(bunnyArray[randomScale(1, n)], 1000);
 			
 		}, 1*100);
 	}());
