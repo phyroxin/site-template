@@ -29,7 +29,7 @@ exports.contact = function(req, res){
 exports.pixi = function(req, res){
 	console.log('Pixi Fun');
 	res.render('pixi', {
-		 title:'Site Template | Pixi Fun'
-		,headerText:'Site Template - Pixi Fun'
+		 title:'Pixi Fun | Fuckin\' Bunnies'
+		,headerText:'Pixi Fun | Fuckin\' Bunnies'
 	});
 };

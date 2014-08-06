@@ -8,7 +8,8 @@
 		,direction 				= 'right'
 		,padding				= 20
 		,heightAdjust			= 300
-		,widthAdjust			= 0;
+		,widthAdjust			= 0
+		,n						= 0;
 		
 	var config = {
 		 windowWidth  : (win.innerWidth || win.documentElement.clientWidth || win.body.clientWidth) - widthAdjust
@@ -23,12 +24,12 @@
 	var bunnyTexture = pixi.Texture.fromImage(imgDIR+"bunny.png");
 	var bunnyArray = [];
 	var bunnyCount = 2;
-
+	
 	/*======================================================================
 	 * Animation core
 	 *======================================================================
 	 */
-	function animate(opts){
+	function animate(opts, cb){
 		var start = new Date;
 		var id = setInterval(function(){
 			var timePassed  = new Date - start;
@@ -40,8 +41,11 @@
 			var delta = opts.delta(progress);
 			opts.step(delta, opts.elem);
 			
-			if(progress == 1)
+			if(progress == 1){
 				clearInterval(id);
+				if(typeof cb !== 'undefined')
+					cb();
+			}
 				
 		}, opts.delay || 10);
 	}
@@ -62,38 +66,66 @@
 	};
 
 	function init(duration){
-	
-		for(i=0; i<bunnyCount; i=i+1){
 		
-			bunnyArray[i] = new pixi.Sprite(bunnyTexture);
-			bunnyArray[i].position.x = randomScale(10, config['windowWidth']);
-			bunnyArray[i].position.y = randomScale(10, 100);
-			bunnyArray[i].width		 = 20; //randomScale(10, 50);
-			bunnyArray[i].height 	 = 25; //randomScale(15, 55);
-			bunnyArray[i].pivot.x 	 = (bunnyArray[i].width /2);
-			bunnyArray[i].pivot.y 	 = (bunnyArray[i].height /2);
-			bunnyArray[i].scale.x 	 = 1;//randomScale(1, 2);
-			bunnyArray[i].scale.y 	 = 1;//randomScale(1, 5);
+		for(i=0; i<bunnyCount; i=i+1, n=n+1){
 			
-			stage.addChild(bunnyArray[i]);
+			bunnyArray[n] = new pixi.Sprite(bunnyTexture);
+			bunnyArray[n].position.x = randomScale(10, config['windowWidth']);
+			bunnyArray[n].position.y = -20;
+			bunnyArray[n].width		 = 20; //randomScale(10, 50);
+			bunnyArray[n].height 	 = 25; //randomScale(15, 55);
+			bunnyArray[n].pivot.x 	 = (bunnyArray[i].width /2);
+			bunnyArray[n].pivot.y 	 = (bunnyArray[i].height /2);
+			bunnyArray[n].scale.x 	 = 1;//randomScale(1, 2);
+			bunnyArray[n].scale.y 	 = 1;//randomScale(1, 5);
+			
+			stage.addChild(bunnyArray[n]);
 			
 			(function(ele){
 				var to = config['windowHeight'] - (ele.pivot.y +20);
 				animate({
 					 delay: 2
-					,duration: duration || 1000
+					,duration: 1000
 					,direction: direction
 					,delta: bounceEaseOut
 					,elem: ele
 					,step: function(delta, elem){
-						console.log(elem);
 						elem.position.y = to*delta;
 						renderer.render(stage);
 					}
 				});
-			}(bunnyArray[i]));
+			}(bunnyArray[n]));
 		}
 	};
+	
+	function bunnyDrop(element, duration){
+		var to = config['windowHeight'] - (element.pivot.y +20);
+		animate({
+			 delay: 1
+			,duration: duration || 1000
+			,delta: bounceEaseOut
+			,elem: element
+			,step: function(delta, elem){
+				elem.position.y = to*delta;
+				renderer.render(stage);
+			}
+		});
+	}
+	
+	function bunnyJump(element, duration){
+		var to = 100; //config['windowHeight'] /randomScale(2, 4);
+		
+		animate({
+			 delay: 1
+			,duration: duration || 1000
+			,delta: quadEaseOut
+			,elem: element
+			,step: function(delta, elem){
+				elem.position.y -= (to*delta);
+				renderer.render(stage);
+			}
+		}, function(){ bunnyDrop(element, 500) });
+	}
 	
 	function randomScale(start, end){
 		return Math.floor(Math.random() * end) + start;
@@ -133,6 +165,8 @@
 		}
 	};
 	
+	var quadEaseOut = makeEaseOut(quad);
+	
 	var bounceEaseOut = makeEaseOut(bounce);
 	
 	var elasticEaseOut = makeEaseOut(elastic);
@@ -150,7 +184,18 @@
 	$(document)
 	.on('click', canvas, function(){
 		console.log('click');
-		init();
+		bunnyJump(bunnyArray[1], 50);
 	});
+	
+	(function(){
+		var randomSpawn = setInterval(function(){
+			var randInt = randomScale(1, 100);
+			if(randInt %10 === 0)
+				init();
+			if(randInt %2 === 0)
+				bunnyJump(bunnyArray[randomScale(1, 10)], 1000);
+			
+		}, 1*100);
+	}());
 
 }(jQuery, PIXI || {}, window || document));
