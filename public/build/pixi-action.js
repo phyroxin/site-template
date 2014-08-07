@@ -15,7 +15,7 @@
 		,bunnyArray   			= []
 		,redArray   			= []
 		,bunnyCount   			= 2
-		,bunnyMax	  			= 100
+		,bunnyMax	  			= 500
 		,globalDelay	  		= 10
 		,globalDuration	  		= 1000;
 		
@@ -80,7 +80,7 @@
 			var  randChoice = randomScale(1, 100)
 				,redsHere   = false;
 			
-			if(randChoice %17 === 0){
+			if(randChoice %27 === 0){
 				bunnyArray[n] = new pixi.Sprite(redTexture);
 				redsHere = true;
 			}
@@ -113,8 +113,10 @@
 
 			stage.addChild(bunnyArray[n]);
 				
-			if(redsHere)
-				redArray.push(n);
+			if(redsHere){
+				redArray.push(bunnyArray[n]);
+				bunnyArray.slice(n);
+			}
 			
 			(function(ele){
 				var to = config['windowHeight'] - (ele.pivot.y +50);
@@ -132,9 +134,38 @@
 			}(bunnyArray[n]));
 		}
 		
+		var  arrayBackRow	  = []
+			,arrayMidBackRow  = []
+			,arrayMidFrontRow = []
+			,arrayFrontRow	  = []
+			,newBunnyArr	  = [];
+		
+		$.each(bunnyArray, function(){
+			
+			stage.removeChild(this);
+			if(this.pivot.y === 26.5)
+				arrayBackRow.push(this);
+			else if(this.pivot.y === 17.666666666666668)
+				arrayMidBackRow.push(this);
+			else if(this.pivot.y === 13.25)
+				arrayMidFrontRow.push(this);
+			else if(this.pivot.y === 10.6)
+				arrayFrontRow.push(this);
+		});
+		
+		newBunnyArr.push(arrayBackRow);
+		newBunnyArr.push(arrayMidBackRow);
+		newBunnyArr.push(arrayMidFrontRow);
+		newBunnyArr.push(arrayFrontRow);
+			
+		$.each(newBunnyArr, function(){
+			$.each(this, function(){
+				stage.addChild(this);
+			});
+		});
+		
 		$.each(redArray, function(key, item){	
-			stage.removeChild(bunnyArray[item]);
-			stage.addChildAt(bunnyArray[item], stage.children.length - 1);
+			stage.addChildAt(this, stage.children.length - 1);
 		});
 	};
 	
