@@ -2,15 +2,22 @@
 	
 	//create stage and add colour
 	var  interactive 			= true
-		,stage 					= new pixi.Stage(0xcccccc, interactive)
-		,canvas					= '#pixi-wrap > canvas'
 		,imgDIR 				= '../../../images/'
-		,count 					= 0
+		,stage 					= new pixi.Stage(0xcccccc, interactive)
+		,bunnyTexture			= pixi.Texture.fromImage(imgDIR+"bunny.png")
+		,redTexture				= pixi.Texture.fromImage(imgDIR+"astroboy.fw-small.fw.png")
+		,backgroundTexture  	= pixi.Texture.fromImage(imgDIR+"pixel_landscape.jpg")
+		,canvas					= '#pixi-wrap > canvas'
+		,count = widthAdjust = n = 0
 		,direction 				= 'right'
 		,padding				= 20
 		,heightAdjust			= 300
-		,widthAdjust			= 0
-		,n						= 0;
+		,bunnyArray   			= []
+		,redArray   			= []
+		,bunnyCount   			= 2
+		,bunnyMax	  			= 100
+		,globalDelay	  		= 10
+		,globalDuration	  		= 1000;
 		
 	var config = {
 		 windowWidth  : (win.innerWidth || win.documentElement.clientWidth || win.body.clientWidth) - widthAdjust
@@ -22,10 +29,6 @@
 	var renderer = pixi.autoDetectRenderer(config.windowWidth, config.windowHeight, null, true);
 	document.getElementById("pixi-wrap").appendChild(renderer.view);
 	
-	var  bunnyTexture = pixi.Texture.fromImage(imgDIR+"bunny.png")
-		,bunnyArray   = []
-		,bunnyCount   = 2
-		,bunnyMax	  = 100;
 	
 	/*======================================================================
 	 * Animation core
@@ -49,7 +52,7 @@
 					cb();
 			}
 				
-		}, opts.delay || 10);
+		}, opts.delay || 20);
 	}
 
 	function checkPos(){
@@ -73,16 +76,27 @@
 			return;
 		
 		for(i=0; i<bunnyCount; i=i+1, n=n+1){
+		
+			var  randChoice = randomScale(1, 100)
+				,redsHere   = false;
 			
-			bunnyArray[n] = new pixi.Sprite(bunnyTexture);
+			if(randChoice %17 === 0){
+				bunnyArray[n] = new pixi.Sprite(redTexture);
+				redsHere = true;
+			}
+			else{
+				bunnyArray[n] = new pixi.Sprite(bunnyTexture);
+				redsHere = false;
+			}
+				
 			bunnyArray[n].position.x    = randomScale(10, config['windowWidth']);
 			bunnyArray[n].position.y    = -20;
-			bunnyArray[n].width		    = 20; //randomScale(10, 50);
-			bunnyArray[n].height 	    = 25; //randomScale(15, 55);
-			bunnyArray[n].pivot.x 	    = (bunnyArray[i].width /2);
-			bunnyArray[n].pivot.y 	    = (bunnyArray[i].height /2);
-			bunnyArray[n].scale.x 	    = 1;//randomScale(1, 2);
-			bunnyArray[n].scale.y 	    = 1;//randomScale(1, 5);
+			bunnyArray[n].width			= (redsHere)?20:27;
+			bunnyArray[n].height 	    = (redsHere)?25:53;
+			bunnyArray[n].pivot.x 	    = (bunnyArray[n].width /2);
+			bunnyArray[n].pivot.y 	    = (bunnyArray[n].height /((redsHere)?2:randomScale(2,4)));
+			bunnyArray[n].scale.x 	    = 1;
+			bunnyArray[n].scale.y 	    = 1;
 			bunnyArray[n].buttonMode    = true;
 			bunnyArray[n].alpha		    = 1;
 			bunnyArray[n].defaultCursor = 'pointer';
@@ -94,16 +108,19 @@
 			};
 			
 			bunnyArray[n].mouseover = function(){
-				bunnyJump(this, 1000);
+				bunnyJump(this, 300);
 			};
-			
+
 			stage.addChild(bunnyArray[n]);
+				
+			if(redsHere)
+				redArray.push(n);
 			
 			(function(ele){
-				var to = config['windowHeight'] - (ele.pivot.y +20);
+				var to = config['windowHeight'] - (ele.pivot.y +50);
 				animate({
-					 delay: 2
-					,duration: 1000
+					 delay: globalDelay
+					,duration: globalDuration
 					,direction: direction
 					,delta: bounceEaseOut
 					,elem: ele
@@ -114,13 +131,34 @@
 				});
 			}(bunnyArray[n]));
 		}
+		
+		$.each(redArray, function(key, item){	
+			stage.removeChild(bunnyArray[item]);
+			stage.addChildAt(bunnyArray[item], stage.children.length - 1);
+		});
 	};
 	
+	function drawBackground(){
+		backTexture = new pixi.Sprite(backgroundTexture);
+		backTexture.position.x  = 0;
+		backTexture.position.y  = 0;
+		backTexture.scale.y		= 0.5;
+		backTexture.scale.y		= 0.5;
+		
+		stage.addChild(backTexture);
+		renderer.render(stage);
+	}
+	
 	function bunnyDrop(element, duration){
-		var to = config['windowHeight'] - (element.pivot.y +20);
+		
+		if(typeof element === 'undefined')
+			return;
+			
+		var to = config['windowHeight'] - (element.pivot.y +50);
+		
 		animate({
-			 delay: 1
-			,duration: duration || 1000
+			 delay: globalDelay
+			,duration: duration || globalDuration
 			,delta: bounceEaseOut
 			,elem: element
 			,step: function(delta, elem){
@@ -131,14 +169,15 @@
 	}
 	
 	function bunnyJump(element, duration){
-		var to = 100; //config['windowHeight'] /randomScale(2, 4);
 		
 		if(typeof element === 'undefined')
 			return;
 			
+		var to = 100;
+			
 		animate({
-			 delay: 1
-			,duration: duration || 1000
+			 delay: globalDelay
+			,duration: duration || globalDuration
 			,delta: quadEaseOut
 			,elem: element
 			,step: function(delta, elem){
@@ -202,11 +241,13 @@
 			.attr('height', config['windowHeight']);
 	});
 	
+	drawBackground();
+	
 	$(document)
-	.on('click', canvas, function(){
-		console.log('canvas clicked');
-		bunnyJump(bunnyArray[randomScale(1, n)], 2000);
-	});
+		.on('click', canvas, function(){
+			console.log('canvas clicked');
+			bunnyJump(bunnyArray[randomScale(1, n)], 2000);
+		});
 	
 	(function(){
 		var randomSpawn = setInterval(function(){
@@ -214,7 +255,7 @@
 			if(randInt %10 === 0)
 				init();
 			if(randInt %5 === 0)
-				bunnyJump(bunnyArray[randomScale(1, n)], 1000);
+				bunnyJump(bunnyArray[randomScale(1, n)], 500);
 			
 		}, 1*100);
 	}());
