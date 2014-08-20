@@ -8,7 +8,7 @@ exports.init = function(server){
 	var  io		 		= require('socket.io').listen(server)
 		,cookie  		= require('cookie')
 		,connect 		= require('connect')
-		,thread	 		= require('webworker-threads')
+		//,thread	 		= require('webworker-threads')
 		,async	 		= require('async')
 		,G		 		= require('../globals')
 		,interval

@@ -136,6 +136,26 @@ var APP = (function($, PARENT){
 		};
 	}());
 	
+	/*======================================================================
+	 * Add line breaks
+	 *======================================================================
+	 */
+	String.method('addLineBreaks', function(){
+		
+		var entity = {	 	 	 
+			 '\r\n' : "<br>"
+			,'\r' : "<br>"
+			,'\n' : "<br>"
+		};
+		
+		return function(){
+			return this.replace(/([\r\n|\r|\n])/gm, function(a,b){
+				var r = entity[b];
+				return typeof r === 'string'?r:a;
+			});
+		};
+	}());
+	
 	/*========================================================
 	 * Load individual shoe data in popup window
 	 *========================================================
@@ -202,6 +222,25 @@ var APP = (function($, PARENT){
 	};
 	
 	/*======================================================================
+	 * Check if is array or object
+	 *======================================================================
+	 */
+	var checkIfIsArray = function(data){
+		if(Object.prototype.toString.call(data) === '[object Array]')
+			return true;
+		else
+			return false;
+	};
+	
+	/*======================================================================
+	 * Strip html
+	 *======================================================================
+	 */
+	var addBreaks = function(string){
+		return string.addLineBreaks();
+	};
+	
+	/*======================================================================
 	 * Optimized render
 	 * @param: elem = string (element to create)
 	 * @param: parent = string (element to populate)
@@ -264,6 +303,7 @@ var APP = (function($, PARENT){
 	PARENT.prototype.PUSH_VAL		  = pushVal;
 	PARENT.prototype.POP_VAL		  = popVal;
 	PARENT.prototype.REMOVE_ARR_VAL   = removeArrVal;
+	PARENT.prototype.IS_ARRAY		  = checkIfIsArray;
 	PARENT.prototype.RENDER			  = renderToDom;
 	PARENT.prototype.GET_DATA		  = getData;
 	
