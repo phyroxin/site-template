@@ -2,13 +2,18 @@
 /*  Assignment */
 
 (function() {
-  var MODULE, age, ages, awardMedals, child, contenders, countdown, courses, date, dish, food, foods, footprints, gold, i, mood, num, number, opposite, rest, silver, solipsism, speed, yearsOld, _i, _j, _k, _len, _len1, _len2, _ref,
+  var Animal, Horse, MODULE, NewBackboneView, Snake, age, ages, awardMedals, chaChaaaa, child, clapHands, contenders, countdown, courses, date, dish, eat, food, foods, footprints, friday, gold, greatlyImproved, happy, i, knowsit, menu, mood, newBackboneView, num, number, opposite, rest, sam, silver, singing, solipsism, speed, tom, yearsOld, _i, _j, _k, _len, _len1, _len2, _ref,
     __slice = [].slice,
-    __hasProp = {}.hasOwnProperty;
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   number = 42;
 
-  opposite = true;
+  greatlyImproved = happy = 'yes';
+
+  opposite = singing = knowsit = true;
+
+  friday = true;
 
 
   /* Conditions */
@@ -24,14 +29,24 @@
     mood = greatlyImproved;
   }
 
+  clapHands = function(say) {
+    return alert(say);
+  };
+
+  chaChaaaa = function(dance) {
+    return alert(dance);
+  };
+
   if (happy && knowsit) {
-    clapHands();
-    chaChaaaa();
+    clapHands('CLAP!! CLAP!!');
+    chaChaaaa('Tango time!');
   } else {
     showIt();
   }
 
-  date = friday ? sue : jill;
+  date = friday ? 'sue' : 'jill';
+
+  alert('You havea date with ' + date);
 
 
   /* Modules */
@@ -75,6 +90,14 @@
 
 
   /* loops */
+
+  eat = function(foodItem) {
+    return alert('I\'m eating ' + foodItem);
+  };
+
+  menu = function(foodNum, foodChoice) {
+    return alert(foodChoice + ' is menu number ' + foodNum);
+  };
 
   _ref = ['toast', 'cheese', 'wine'];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -141,5 +164,101 @@
   }
 
   footprints = typeof yeti !== "undefined" && yeti !== null ? yeti : "bear";
+
+
+  /* classes */
+
+  Animal = (function() {
+    function Animal(name) {
+      this.name = name;
+    }
+
+    Animal.prototype.move = function(meters) {
+      return alert(this.name + (" moved " + meters + "m."));
+    };
+
+    return Animal;
+
+  })();
+
+  Snake = (function(_super) {
+    __extends(Snake, _super);
+
+    function Snake() {
+      return Snake.__super__.constructor.apply(this, arguments);
+    }
+
+    Snake.prototype.move = function() {
+      alert("Slithering...");
+      return Snake.__super__.move.call(this, 5);
+    };
+
+    return Snake;
+
+  })(Animal);
+
+  Horse = (function(_super) {
+    __extends(Horse, _super);
+
+    function Horse() {
+      return Horse.__super__.constructor.apply(this, arguments);
+    }
+
+    Horse.prototype.move = function() {
+      alert("Galloping...");
+      return Horse.__super__.move.call(this, 45);
+    };
+
+    return Horse;
+
+  })(Animal);
+
+  sam = new Snake("Sammy the Python");
+
+  tom = new Horse("Tommy the Horse");
+
+  sam.move();
+
+  tom.move();
+
+
+  /* backbone */
+
+  NewBackboneView = (function(_super) {
+    var inputFunc;
+
+    __extends(NewBackboneView, _super);
+
+    function NewBackboneView() {
+      return NewBackboneView.__super__.constructor.apply(this, arguments);
+    }
+
+    NewBackboneView.prototype.el = $('#appWeatherNow');
+
+    NewBackboneView.prototype.initialize = function() {
+      alert('init action');
+      _.bindAll(this, this.buttonFunc);
+      return this.render();
+    };
+
+    inputFunc = {
+      button: '.buttonName',
+      buttonFunc: function() {
+        return alert('button action');
+      }
+    };
+
+    NewBackboneView.prototype.render = function() {
+      $(this.el).append('<b>This is an input from coffee-scripted backbone!</b>');
+      $(this.inputFunc.button).on("click", {
+        _that: this.inputFunc.button
+      }, this.inputFunc.buttonFunc);
+    };
+
+    return NewBackboneView;
+
+  })(Backbone.View);
+
+  newBackboneView = new NewBackboneView();
 
 }).call(this);

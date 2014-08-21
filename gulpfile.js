@@ -32,13 +32,13 @@ var paths = {
 	,imgDest	 : 'public/build/images'
 };
 	
-var getVersion = function(){
-	return fs.readFileSync('Version');
-};
-
-var getCopyright = function(){
-	return fs.readFileSync('Copyright');
-};
+//var getVersion = function(){
+//	return fs.readFileSync('Version');
+//};
+//
+//var getCopyright = function(){
+//	return fs.readFileSync('Copyright');
+//};
 
 gulp.task('compile-app', function(){
 	gulp.src(paths.compileSrc)
