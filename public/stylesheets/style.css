@@ -424,11 +424,17 @@ app-app-content-wrap-style-style {
   color: #fff;
 }
 .app-header-text-style {
-  width: auto;
+  width: 750px;
+  padding: 0px;
+  margin: 0 auto;
 }
 .app-header-text-style h1 {
-  font-size: 2.5em;
+  font-size: 60px;
   line-height: 1em;
+}
+.app-header-text-style span {
+  font-size: 46px;
+  color: #873417;
 }
 .app-header-logo-style {
   width: 200px;
@@ -446,12 +452,49 @@ app-app-content-wrap-style-style {
   min-height: 100px;
   background: #cfb86a;
 }
+.test-wrap-content {
+  width: 750px;
+  color: #000;
+  background: #fff;
+  margin: 0 auto;
+}
 .float {
   float: left;
 }
-@media only screen and (min-width: 200px) and (max-width: 550px) {
+@media only screen and (min-width: 768px) and (max-width: 809px) {
+  .app-header-text-style {
+    width: 718px;
+  }
+  .app-header-text-style h1 {
+    font-size: 50px;
+  }
+  .test-wrap-content {
+    width: 718px;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
   .area-style {
     margin-top: 20px;
     width: 250px;
+  }
+  .app-header-text-style {
+    width: 450px;
+  }
+  .app-header-text-style h1 {
+    font-size: 45px;
+  }
+  .test-wrap-content {
+    width: 450px;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .app-header-text-style {
+    width: 300px;
+  }
+  .app-header-text-style h1 {
+    font-size: 30px;
+  }
+  .test-wrap-content {
+    width: 300px;
   }
 }

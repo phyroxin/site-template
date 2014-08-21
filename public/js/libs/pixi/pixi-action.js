@@ -17,7 +17,7 @@
 		,bunnyCount   			 = 1
 		,globalDelay	  		 = 20
 		,padding				 = 20
-		,bunnyMax	  			 = 5000
+		,bunnyMax	  			 = 1
 		,heightAdjust			 = 300
 		,globalDuration	  		 = 1000
 		,redArray   			 = []
@@ -117,10 +117,9 @@
 			return;
 		
 		if(Boolean($('#appHeaderText').find('span').length) === false){
-			$('#appHeaderText > h1')
+			$('#appHeaderText')
 				.append($('<span />', {
 					 'id': 'bunnyCount'
-					,'style': 'font-size: 2.0em; color:#873417;'
 				})
 					.html(n+' Bunnies!'));
 		}
@@ -279,13 +278,15 @@
 		}, function(){ bunnyDrop(element, 500) });
 	}
 	
-	function bunnyMove(element, duration){
+	function bunnyMove(element, duration, to){
+		
+		console.log(to);
 		
 		if(typeof element === 'undefined')
 			return;
 		
 		element.canMove = false;
-		var to	 = randomScale(50, 500);
+		var to	 = to || randomScale(50, 500);
 		var from = element.position.x;
 			
 		animate({
@@ -371,11 +372,13 @@
 		.on('keydown',function(event) {
 			if(event.keyCode == 37) {
 				//alert('Left was pressed');
-				bunnyMove(bunnyArray[0], (bunnyArray[0].position.x + 5));
+				if(bunnyArray[0].position.x > 10)
+					bunnyMove(bunnyArray[0], globalDelay, (bunnyArray[0].position.x - 1));
 			}
 			else if(event.keyCode == 39) {
 				//alert('Right was pressed');
-				bunnyMove(bunnyArray[0], (bunnyArray[0].position.x - 5));
+				if(bunnyArray[0].position.x < (config['windowWidth']-10))
+					bunnyMove(bunnyArray[0], globalDelay, (bunnyArray[0].position.x + 1));
 			}
 		});
 

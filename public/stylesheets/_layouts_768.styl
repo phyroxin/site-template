@@ -1,3 +1,13 @@
 /* #Website 768 // 
-@media only screen and (min-width: 768px) and (max-width: 959px) 
 ================================================== */
+$content-width = $sizing_768 - ($spacing_768 * 2)
+
+@media only screen and (min-width: 768px) and (max-width: 809px)
+
+	.app-header-text-style
+		width $content-width
+		h1
+			font-size $base_h1_768
+
+	.test-wrap-content
+		width $content-width

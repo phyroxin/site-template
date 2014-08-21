@@ -1,3 +1,14 @@
 /* #Website 320 // 
-@media only screen and (max-width: 479px)  
 ================================================== */
+
+$content-width = $sizing_320 - ($spacing_320 * 2)
+
+@media only screen and (max-width: 479px)
+	
+	.app-header-text-style
+		width $content-width
+		h1
+			font-size $base_h1_320
+	
+	.test-wrap-content
+		width $content-width

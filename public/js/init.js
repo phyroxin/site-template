@@ -7,5 +7,4 @@ $(document).ready(function(){
 	
 	workspace = new Workspace();
 	Backbone.history.start();
-
 });

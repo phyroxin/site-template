@@ -1,6 +1,16 @@
 /* #Website 480 // 
 ================================================== */
-@media only screen and (min-width: 200px) and (max-width: 550px) 
+$content-width = $sizing_480 - ($spacing_480 * 2)
+
+@media only screen and (min-width: 480px) and (max-width: 767px) 
 	.area-style
 		margin-top 20px
 		width 250px
+		
+	.app-header-text-style
+		width $content-width
+		h1
+			font-size $base_h1_480	
+	
+	.test-wrap-content
+		width $content-width
