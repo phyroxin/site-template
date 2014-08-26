@@ -358,4 +358,4 @@ var socket;
 		weatherContentView.render(data);
 	});*/
 	
-}(APP));
+}(APP || function(){}));

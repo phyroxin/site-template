@@ -3,7 +3,7 @@ var  gulp        = require('gulp')
 	,fs     	 = require('fs')
 	,coffee      = require('gulp-coffee')
     ,coffeelint  = require('gulp-coffeelint') 
-	,header		 = require('gulp-header') 
+	,header		 = require('gulp-header')
     ,jshint      = require('gulp-jshint')
     ,streamify   = require('gulp-streamify')
     ,uglify      = require('gulp-uglify')
@@ -24,7 +24,10 @@ var paths = {
 	,libsDest	 : 'public/build/libs'
 	,tempSrc	 : 'public/js/template/jade-templates.js'
 	,tempDest	 : 'public/build/template'
-	,pixiifySrc	 : ['./public/js/libs/pixi/pixi-main.js', './public/js/libs/pixi/pixi-action.js']
+	,pixiifySrc	 : [
+		 './public/js/libs/pixi/pixi-main.js'
+		,'./public/js/libs/pixi/pixi-action.js'
+	]
 	,pixiifyDest : './public/build/'
 	,coffeeSrc   : 'public/coffee/*.coffee'
 	,coffeeDest  : 'public/build/coffeeToJs'
@@ -43,15 +46,10 @@ var paths = {
 gulp.task('compile-app', function(){
 	gulp.src(paths.compileSrc)
 		.pipe(changed(paths.compileDest))
-	    .pipe(order([
-			 "_globals.js"
-			,"app.js"
-			,"init.js"
-	    ]))	
 	    .pipe(jshint({laxcomma:true}))
 	    .pipe(jshint.reporter('default'))
 	    .pipe(uglify())
-	    .pipe(concat('app.js'))
+	    .pipe(concat('app-globals.js'))
 	    .pipe(gulp.dest(paths.compileDest));
 });
 
@@ -106,6 +104,11 @@ gulp.task('compress-image', function(){
 gulp.task('coffee-compile', function(){
 	gulp.src(paths.coffeeSrc)
 		.pipe(changed(paths.coffeeDest))
+		.pipe(order([
+			 'app-source.coffee'
+			,'test.coffee'
+			,'app-init.coffee'
+		]))
 	    .pipe(coffeelint('coffeelint.json'))
 	    .pipe(coffeelint.reporter('default'))
 	    .pipe(concat('coffeeCompiled.js'))
