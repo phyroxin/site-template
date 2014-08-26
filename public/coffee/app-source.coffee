@@ -145,4 +145,40 @@ class DefaultContentView extends Backbone.View
 		jade.render el[0], 'temp-content', 'location': 'test'
 
 		return
+		
+###===============================================================================================
+ # Main text view
+ #======================================================================
+ ###
+### backbone ###
+class NewBackboneView extends Backbone.View
+	
+	el: '#appWeatherNow'
+	
+	initialize: ->
+		alert 'init action'
+		_.bindAll @inputFunc, 'buttonFunc'
+		return
+	
+	inputFunc:
+		button: '.buttonName'
+		buttonFunc: ->
+			alert 'button action'
+			return
+
+	render: ->
+		alert 'hello backbone'
+		@$el.html '<b>This is an input from coffee-scripted backbone!</b>'
+		$(@inputFunc.button).on "click", _that: @inputFunc.button, @inputFunc.buttonFunc
+		return
+		#jade.render(
+		#	el[0]
+		#	'template'
+		#		'header': 'Test Header'
+		#)
+		#return
+		
+#window.NewBackboneView = NewBackboneView
+ 
+ 
 	

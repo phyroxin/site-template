@@ -8,7 +8,7 @@
 /* Comment Mode */
 
 (function() {
-  var DefaultCollection, DefaultContentView, DefaultHeaderView, DefaultModel, DefaultView, Workspace,
+  var DefaultCollection, DefaultContentView, DefaultHeaderView, DefaultModel, DefaultView, NewBackboneView, Workspace,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -238,6 +238,48 @@
 
   })(Backbone.View);
 
+
+  /*===============================================================================================
+    * Main text view
+    *======================================================================
+   */
+
+
+  /* backbone */
+
+  NewBackboneView = (function(_super) {
+    __extends(NewBackboneView, _super);
+
+    function NewBackboneView() {
+      return NewBackboneView.__super__.constructor.apply(this, arguments);
+    }
+
+    NewBackboneView.prototype.el = '#appWeatherNow';
+
+    NewBackboneView.prototype.initialize = function() {
+      alert('init action');
+      _.bindAll(this.inputFunc, 'buttonFunc');
+    };
+
+    NewBackboneView.prototype.inputFunc = {
+      button: '.buttonName',
+      buttonFunc: function() {
+        alert('button action');
+      }
+    };
+
+    NewBackboneView.prototype.render = function() {
+      alert('hello backbone');
+      this.$el.html('<b>This is an input from coffee-scripted backbone!</b>');
+      $(this.inputFunc.button).on("click", {
+        _that: this.inputFunc.button
+      }, this.inputFunc.buttonFunc);
+    };
+
+    return NewBackboneView;
+
+  })(Backbone.View);
+
   $(document).ready(function() {
     var workspace;
     $(document).on('click', '#id', function() {
@@ -245,9 +287,11 @@
     });
     workspace = new Workspace();
     Backbone.history.start();
-    return setTimeout(function() {
+    setTimeout(function() {
       var newBackboneView;
+      console.log('timeout');
       newBackboneView = new NewBackboneView();
+      newBackboneView.render();
     }, 3 * 1000);
   });
 
