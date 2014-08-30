@@ -446,7 +446,7 @@ app-app-content-wrap-style-style {
 }
 .app-header h2 {
   font-size: 1.7em;
-  line-height: 0.1em;
+  line-height: 1.4em;
 }
 .app-content {
   min-height: 100px;
@@ -496,5 +496,8 @@ app-app-content-wrap-style-style {
   }
   .test-wrap-content {
     width: 300px;
+  }
+  .area-style {
+    width: 100%;
   }
 }

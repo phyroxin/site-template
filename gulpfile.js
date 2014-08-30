@@ -11,6 +11,7 @@ var  gulp        = require('gulp')
     ,order       = require('gulp-order')
     ,changed     = require('gulp-changed')
     ,imagemin    = require('gulp-imagemin')
+    ,gzip		 = require('gulp-gzip')
     ,pngcrush    = require('imagemin-pngcrush')
     ,browserify  = require('browserify')
     ,b			 = browserify({ debug:true })
@@ -34,14 +35,6 @@ var paths = {
 	,imgSrc		 : 'public/images/*'
 	,imgDest	 : 'public/build/images'
 };
-	
-//var getVersion = function(){
-//	return fs.readFileSync('Version');
-//};
-//
-//var getCopyright = function(){
-//	return fs.readFileSync('Copyright');
-//};
 
 gulp.task('compile-app', function(){
 	gulp.src(paths.compileSrc)
@@ -50,6 +43,7 @@ gulp.task('compile-app', function(){
 	    .pipe(jshint.reporter('default'))
 	    .pipe(uglify())
 	    .pipe(concat('app-globals.js'))
+	    .pipe(gzip())
 	    .pipe(gulp.dest(paths.compileDest));
 });
 
@@ -57,13 +51,14 @@ gulp.task('compile-libs', function(){
 	gulp.src(paths.libsSrc)
 		.pipe(changed(paths.libsDest))
 	    .pipe(order([
-		 "underscore-min.js"
-		,"json2-min.js"
-		,"backbone-min.js"
-		,"backbone.dispose.js"
+			 "underscore-min.js"
+			,"json2-min.js"
+			,"backbone-min.js"
+			,"backbone.dispose.js"
 	    ]))
 	    .pipe(uglify())
 	    .pipe(concat('libs.js'))
+	    .pipe(gzip())
 	    .pipe(gulp.dest(paths.libsDest))
 });
 
@@ -72,6 +67,7 @@ gulp.task('compile-temp', function(){
 		.pipe(changed(paths.tempDest))
 	    .pipe(uglify())
 	    .pipe(concat('temp.js'))
+	    .pipe(gzip())
 	    .pipe(gulp.dest(paths.tempDest))
 });
 
@@ -80,6 +76,7 @@ gulp.task('pixiify', function(){
 		.bundle()
 		.pipe(source('pixi.js'))
 		.pipe(streamify(uglify()))
+	    .pipe(gzip())
 		.pipe(gulp.dest(paths.pixiifyDest));
 });
 
@@ -106,16 +103,15 @@ gulp.task('coffee-compile', function(){
 		.pipe(changed(paths.coffeeDest))
 		.pipe(order([
 			 'app-source.coffee'
-			,'test.coffee'
 			,'app-init.coffee'
 		]))
 	    .pipe(coffeelint('coffeelint.json'))
 	    .pipe(coffeelint.reporter('default'))
 	    .pipe(concat('coffeeCompiled.js'))
 	    .pipe(coffee())
-	    //.pipe(uglify())
-	    //.pipe(header(getCopyright(), { version: getVersion() }))
-	    .pipe(gulp.dest(paths.coffeeDest))
+	    .pipe(uglify())
+	    .pipe(gzip())
+	    .pipe(gulp.dest(paths.coffeeDest));
 });
 
 // automate tasks and create watchers

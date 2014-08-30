@@ -197,7 +197,7 @@
         'inputFunc': this.inputFunc
       }, function(event) {
         if (event.keyCode === 13) {
-          console.log($(this).val);
+          console.log($(this).val());
           event.data.inputFunc.onLocWeather($(this).val);
         }
       });
@@ -227,11 +227,13 @@
     DefaultContentView.prototype.inputFunc = {};
 
     DefaultContentView.prototype.render = function(obj) {
-      var el;
+      var el, newBackboneView;
       el = this.$el;
       jade.render(el[0], 'temp-content', {
         'location': 'test'
       });
+      newBackboneView = new NewBackboneView();
+      newBackboneView.render();
     };
 
     return DefaultContentView;
@@ -257,7 +259,6 @@
     NewBackboneView.prototype.el = '#appWeatherNow';
 
     NewBackboneView.prototype.initialize = function() {
-      alert('init action');
       _.bindAll(this.inputFunc, 'buttonFunc');
     };
 
@@ -269,7 +270,6 @@
     };
 
     NewBackboneView.prototype.render = function() {
-      alert('hello backbone');
       this.$el.html('<b>This is an input from coffee-scripted backbone!</b>');
       $(this.inputFunc.button).on("click", {
         _that: this.inputFunc.button
@@ -287,12 +287,6 @@
     });
     workspace = new Workspace();
     Backbone.history.start();
-    setTimeout(function() {
-      var newBackboneView;
-      console.log('timeout');
-      newBackboneView = new NewBackboneView();
-      newBackboneView.render();
-    }, 3 * 1000);
   });
 
 }).call(this);

@@ -30,11 +30,11 @@ class DefaultCollection extends Backbone.Collection
 		@fetch async: false
 		return
 	
-	parse: (data)->
+	parse: (data) ->
 		console.log 'running parse'
 		_.map data, _.identity
 	
-	reset: (models, options)->
+	reset: (models, options) ->
 		if options and options.parse
 			delete options.parse models = @parse(models)
 			Backbone.Collection.prototype.reset.call(this, models, options)
@@ -81,15 +81,15 @@ class DefaultView extends Backbone.View
 	inputFunc:
 		value: 'value'
 		sgnBtn: '#sign-state'
-		onSignIn: (e)->
+		onSignIn: (e) ->
 			e.preventDefault
 			console.log 'sign in'
 		
-		onSignOut: (e)->
+		onSignOut: (e) ->
 			e.preventDefault
 			console.log 'sign out'
 	
-	render: (obj)->
+	render: (obj) ->
 		el = @$el
 		
 		defaultHeaderView = new DefaultHeaderView
@@ -114,15 +114,15 @@ class DefaultHeaderView extends Backbone.View
 	inputFunc:
 		onLocBtn: '#area'
 		onLocWeather: ->
-			APP.prototype.GET_DATA (data)->
+			APP.prototype.GET_DATA (data) ->
 				console.log data
 	
-	render: (obj)->
+	render: (obj) ->
 		el = @$el
 		jade.render el[0], 'temp-header', 'header': 'Test Header'
-		$(@inputFunc.onLocBtn).bind 'keyup', 'inputFunc': this.inputFunc, (event)->
+		$(@inputFunc.onLocBtn).bind 'keyup', 'inputFunc': this.inputFunc, (event) ->
 			if event.keyCode is 13
-				console.log $(@).val
+				console.log $(@).val()
 				event.data.inputFunc.onLocWeather $(@).val
 			return
 			
@@ -140,10 +140,13 @@ class DefaultContentView extends Backbone.View
 	
 	inputFunc: {}
 	
-	render: (obj)->
+	render: (obj) ->
 		el = @$el
 		jade.render el[0], 'temp-content', 'location': 'test'
-
+		
+		newBackboneView = new NewBackboneView()
+		newBackboneView.render()
+		
 		return
 		
 ###===============================================================================================
@@ -156,7 +159,6 @@ class NewBackboneView extends Backbone.View
 	el: '#appWeatherNow'
 	
 	initialize: ->
-		alert 'init action'
 		_.bindAll @inputFunc, 'buttonFunc'
 		return
 	
@@ -167,18 +169,8 @@ class NewBackboneView extends Backbone.View
 			return
 
 	render: ->
-		alert 'hello backbone'
 		@$el.html '<b>This is an input from coffee-scripted backbone!</b>'
-		$(@inputFunc.button).on "click", _that: @inputFunc.button, @inputFunc.buttonFunc
-		return
-		#jade.render(
-		#	el[0]
-		#	'template'
-		#		'header': 'Test Header'
-		#)
-		#return
 		
-#window.NewBackboneView = NewBackboneView
- 
- 
-	
+		$(@inputFunc.button).on "click", _that: @inputFunc.button, @inputFunc.buttonFunc
+		
+		return

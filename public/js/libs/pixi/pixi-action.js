@@ -39,23 +39,27 @@
 	 * Animation core
 	 *======================================================================
 	 */
-	function animate(opts, cb){ 
+	function animate(opts, cb){
 		var start = new Date;
 		var id = setInterval(function(){
+		
 			var timePassed  = new Date - start;
 			var progress	= timePassed / opts.duration
 			
 			if(progress > 1)
 				progress = 1;
-			
+
 			var delta = opts.delta(progress);
 			opts.step(delta, opts.elem);
 			
 			if(progress == 1){
 				clearInterval(id);
+				renderer.render(stage);
 				if(typeof cb !== 'undefined')
 					cb();
 			}
+			
+			renderer.render(stage);
 				
 		}, globalDelay);
 	}
@@ -234,7 +238,6 @@
 		renderer.render(stage);
 	}
 	
-	
 	/*======================================================================
 	 * Sprite actions
 	 *======================================================================
@@ -280,26 +283,35 @@
 	
 	function bunnyMove(element, duration, to){
 		
-		console.log(to);
-		
-		if(typeof element === 'undefined')
-			return;
-		
-		element.canMove = false;
-		var to	 = to || randomScale(50, 500);
-		var from = element.position.x;
+		var moveNormal, to, from;
 			
+		element.canMove = false;
+		
+		if(to === 'left')
+			to	 = (element.position.x -10); //|| randomScale(50, 500);
+		else
+			to	 = (element.position.x +10); //|| randomScale(50, 500);
+		
+		from = element.position.x;
+		
+		console.log('=====================================================>>>');
+		console.log(element.position.x);
+		
 		animate({
 			 delay: globalDelay
 			,duration: duration || globalDuration
 			,delta: quadEaseOut
 			,elem: element
 			,step: function(delta, elem){
-
-				if(from > to)
-					elem.position.x = from-(to*delta);
-				else if(from < to)
-					elem.position.x = from+(to*delta);
+				console.log('from ' + elem.position.x);
+				console.log('to ' + to);
+				console.log('by ' + delta);
+				console.log('inc ' + (to*delta));
+				//elem.position.x = 
+				//if(from > to)
+				//	bunnyArray[0].position.x = (bunnyArray[0].position.x - 3)*delta; //(elem.position.x - (to*delta));
+				//else if(from < to)
+				//	bunnyArray[0].position.x = (bunnyArray[0].position.x + 3)*delta; //(elem.position.x + (to*delta));
 			}
 		}, function(){ element.canMove = true; });
 	}
@@ -349,7 +361,6 @@
 		}, globalDelay);
 	}());
 	
-	
 	/*======================================================================
 	 * Event bindings
 	 *======================================================================
@@ -371,14 +382,16 @@
 		})
 		.on('keydown',function(event) {
 			if(event.keyCode == 37) {
-				//alert('Left was pressed');
+				bunnyArray[0].position; 
 				if(bunnyArray[0].position.x > 10)
-					bunnyMove(bunnyArray[0], globalDelay, (bunnyArray[0].position.x - 1));
+					bunnyMove(bunnyArray[0], globalDuration, 'left');
 			}
 			else if(event.keyCode == 39) {
-				//alert('Right was pressed');
 				if(bunnyArray[0].position.x < (config['windowWidth']-10))
-					bunnyMove(bunnyArray[0], globalDelay, (bunnyArray[0].position.x + 1));
+					bunnyMove(bunnyArray[0], globalDuration, 'right');
+			}
+			else if(event.keyCode == 38) {
+				bunnyJump(bunnyArray[0], 300);
 			}
 		});
 

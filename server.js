@@ -8,6 +8,7 @@
  *========================================================
  */
 var  express  	    = require('express')
+	,compression	= require('compression')
 	,favicon	    = require('serve-favicon')
 	,logger		    = require('morgan')
 	,bodyParser	    = require('body-parser')
@@ -44,6 +45,7 @@ app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('views', __dirname + '/views');
 app.set('view engine','jade');
 //app.use(favicon());
+app.use(compression());
 app.use(logger({ format: 'dev', immediate: true }));
 app.use(bodyParser());
 app.use(methodOverride());
