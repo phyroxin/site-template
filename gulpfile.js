@@ -76,7 +76,7 @@ gulp.task('pixiify', function(){
 		.bundle()
 		.pipe(source('pixi.js'))
 		.pipe(streamify(uglify()))
-	    .pipe(gzip())
+	    //.pipe(gzip())
 		.pipe(gulp.dest(paths.pixiifyDest));
 });
 

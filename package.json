@@ -46,10 +46,11 @@
     "nib": "1.0.2",
     "pixi": "^0.2.1",
     "redis": "^0.11.0",
-    "request": "2.36.0",
+    "request": "^2.36.0",
     "serve-favicon": "2.0.1",
     "socket.io": "0.9.16",
     "stylus": "0.46.3",
+    "thunkify": "^2.1.2",
     "vinyl-source-stream": "^0.1.1",
     "ws": "0.4.31"
   }

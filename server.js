@@ -26,6 +26,7 @@ var  express  	    = require('express')
 	,socketModule   = require('./socket-module')
 	//,thread	 	    = require('webworker-threads')
 	,fs			    = require('fs')
+	//,co			    = require('./co')
 	,app		    = express();
 
 function compile(str, path){
@@ -108,4 +109,3 @@ app.use(express.static(path.join(__dirname + '/public')));
 if ('development' == app.get('env')) {
 	app.use(errorHandler());
 }
-

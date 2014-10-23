@@ -14,10 +14,10 @@
 		,canvas					 = '#pixi-wrap > canvas'
 		,direction 				 = 'right'
 		,count = widthAdjust = n = 0
-		,bunnyCount   			 = 1
+		,bunnyCount   			 = 3
 		,globalDelay	  		 = 20
 		,padding				 = 20
-		,bunnyMax	  			 = 1
+		,bunnyMax	  			 = 2000
 		,heightAdjust			 = 300
 		,globalDuration	  		 = 1000
 		,redArray   			 = []
@@ -33,8 +33,7 @@
 	// I had to use autodetect due to undefined glitch in WebGLRenderer renderer
 	var renderer = pixi.autoDetectRenderer(config.windowWidth, config.windowHeight, null, true);
 	document.getElementById("pixi-wrap").appendChild(renderer.view);
-	
-	
+
 	/*======================================================================
 	 * Animation core
 	 *======================================================================
@@ -173,6 +172,8 @@
 			stage.addChild(bunnyArray[n]);
 
 			(function(ele){
+			
+				console.log(ele)
 				var to = config['windowHeight'] - (ele.pivot.y +50);
 				animate({
 					 delay		: globalDelay
